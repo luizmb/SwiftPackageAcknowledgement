@@ -6,7 +6,6 @@ import FoundationExtensions
 import Helper
 
 public typealias PackageRepository = (package: ResolvedPackage, repository: GitHubRepository)
-//public typealias PackageLicense = (package: ResolvedPackage, license: GitHubLicense)
 
 public struct PackageLicense {
     let package: ResolvedPackage

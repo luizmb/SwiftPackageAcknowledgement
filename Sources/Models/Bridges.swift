@@ -6,7 +6,22 @@ import FoundationExtensions
 import Helper
 
 public typealias PackageRepository = (package: ResolvedPackage, repository: GitHubRepository)
-public typealias PackageLicense = (package: ResolvedPackage, license: GitHubLicense)
+
+public struct PackageLicense {
+    let package: ResolvedPackage
+    let license: GitHubLicense
+}
+
+extension PackageLicense: Comparable {
+    public static func < (lhs: PackageLicense, rhs: PackageLicense) -> Bool {
+        lhs.package.package < rhs.package.package
+    }
+    
+    public static func == (lhs: PackageLicense, rhs: PackageLicense) -> Bool {
+        lhs.package.package == rhs.package.package
+    }
+}
+
 
 public func extractPackageGitHubRepositories(from packages: [ResolvedPackage]) -> [PackageRepository] {
     packages.compactMap { spmPackage in

@@ -18,11 +18,8 @@ func writePlist(for resolvedPackages: Result<[ResolvedPackage], GeneratePlistErr
         )
         .contramapEnvironment(\World.urlSession, \World.githubJsonDecoder)
     }
-    .flatMapPublisher { (packageLicenses: [PackageLicense]) -> Reader<World, Publishers.Promise<[PackageLicense], GeneratePlistError>> in
-        Reader { packages in
-            Result { packageLicenses.sorted() }.mapError(GeneratePlistError.packageResolvedFileCannotBeOpen).promise
-        }
-            .contramapEnvironment(\World.urlSession)
+    .mapPublisher { licences in
+        licences.sorted()
     }
     .flatMapPublisher { (packageLicenses: [PackageLicense]) -> Reader<World, Publishers.Promise<CocoaPodsPlist, GeneratePlistError>> in
         cocoaPodsModel(packageLicenses: packageLicenses)
